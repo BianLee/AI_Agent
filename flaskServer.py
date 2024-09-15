@@ -13,13 +13,11 @@ def submit():
         'name': request.form.get('name'),
         'email': request.form.get('email'),
         'phone': request.form.get('phone'),
-        'address': {
-            'street': request.form.get('street'),
-            'city': request.form.get('city'),
-            'state': request.form.get('state'),
-            'zip': request.form.get('zip')
-        },
-        'dl': request.form.get('dl'),
+        'address': request.form.get('street'),
+        'city': request.form.get('city'),
+        'state': request.form.get('state'),
+        'zip': request.form.get('zip'),
+        'license': request.form.get('dl'),
         'birthday': request.form.get('birthday')
     }
 
