@@ -193,19 +193,25 @@ class NLPPDFProcessor:
 
         response = call_gemini_api(prompt)
 
-        # Log the full response for debugging
-        logging.debug(f"Full Gemini API response: {response}")
+        # Write the full response to a separate JSON file
+        self.write_response_to_file(response)
+
+        # Strip code block markers if present
+        cleaned_response = self.strip_code_blocks(response)
+
+        # Write the cleaned response for verification
+        # self.write_cleaned_response_to_file(cleaned_response)
 
         try:
-            # Attempt to parse the response directly
-            matched_fields = json.loads(response)
+            # Attempt to parse the cleaned response directly
+            matched_fields = json.loads(cleaned_response)
             logging.info("Field matching completed using Gemini API.")
             return matched_fields
         except json.JSONDecodeError:
-            logging.error("Failed to parse Gemini API response as JSON.")
+            logging.error("Failed to parse Gemini API response as JSON after stripping code blocks.")
 
             # Attempt to extract JSON from the response using regex
-            json_match = re.search(r'\{.*\}', response, re.DOTALL)
+            json_match = re.search(r'\{.*\}', cleaned_response, re.DOTALL)
             if json_match:
                 try:
                     matched_fields = json.loads(json_match.group())
@@ -216,6 +222,55 @@ class NLPPDFProcessor:
 
             logging.info("Falling back to fuzzy matching.")
             return self.fallback_fuzzy_matching(pdf_fields, data_keys)
+
+    def strip_code_blocks(self, text):
+        """
+        Extracts JSON content from a code block if present.
+        Removes ```json and ``` markers.
+        """
+        pattern = r'```json\s*\n?(.*?)\n?```'
+        match = re.search(pattern, text, re.DOTALL)
+        if match:
+            json_text = match.group(1).strip()
+            logging.debug("Code block markers found and removed.")
+            return json_text
+        else:
+            logging.debug("No code block markers found.")
+            return text.strip()
+
+
+    def write_response_to_file(self, response):
+        """
+        Writes the raw Gemini API response to a JSON file with a timestamp.
+        """
+        try:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"gemini_response_{timestamp}.json"
+            file_path = os.path.join(API_RESPONSES_DIR, filename)
+
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(response)
+
+            logging.info(f"Gemini API response written to '{file_path}'.")
+        except Exception as e:
+            logging.error(f"Failed to write Gemini API response to file: {e}")
+
+    def write_cleaned_response_to_file(self, cleaned_response):
+        """
+        Writes the cleaned Gemini API response to a separate JSON file for verification.
+        """
+        try:
+            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+            filename = f"gemini_cleaned_response_{timestamp}.json"
+            file_path = os.path.join(API_RESPONSES_DIR, filename)
+
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write(cleaned_response)
+
+            logging.info(f"Cleaned Gemini API response written to '{file_path}'.")
+        except Exception as e:
+            logging.error(f"Failed to write cleaned Gemini API response to file: {e}")
+
 
 
     def fallback_fuzzy_matching(self, pdf_fields, data_keys):
@@ -349,17 +404,19 @@ def main(json_file_path):
     if not downloaded_files:
         logging.error("No PDF attachments to process. Exiting.")
         return
+    try:
+        with open('data.json', 'r') as file:
+            user_data = json.load(file)
+        logging.info("Loaded form data from 'data.json'.")
+    except FileNotFoundError:
+        logging.error("Form data file 'data.json' not found.")
+        return
+    except json.JSONDecodeError:
+        logging.error("Invalid JSON format in 'data.json'.")
+        return
 
-    data = {
-        "Print seller's name": 'John Doe',
-        "Printed Buyer's name": 'Jane Smith',
-        "Seller mail address": '123 Seller St, SellerCity, SC',
-        "Buyer mail address": '456 Buyer Ave, BuyerCity, BC',
-        "Seller print name 1": 'John Doe',
-        "Seller print name 2": 'John Doe',
-        "City": 'Irvine',
-    }
 
+    data = user_data
     for pdf_filename in downloaded_files:
         processor = NLPPDFProcessor(pdf_filename)
         filled_pdf_path = processor.fill_form(data, output_path=f'filled_{pdf_filename}')
