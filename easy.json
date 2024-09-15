@@ -1,0 +1,105 @@
+{
+    "id": "REDACTED",
+    "sender": {
+      "name": "Marvin von Hagen",
+      "email": "hagen@mit.edu"
+    },
+    "recipients": [
+      "interactioncocalifornia@gmail.com"
+    ],
+    "cc": [],
+    "subject": "[HackMIT-easy] Bill of Sale",
+    "snippet": "Hey hackers, Attached, you can find the easy bill of sale form. Please send it back filled out – Happy hacking! Cheers, Marvin",
+    "payload": {
+      "partId": "",
+      "mimeType": "multipart/mixed",
+      "filename": "",
+      "content": "",
+      "headers": [
+        "Delivered-To:interactioncocalifornia@gmail.com",
+        "Received:by REDACTED with SMTP id REDACTED; Fri, 13 Sep 2024 23:19:15 -0700 (PDT)",
+        "X-Google-Smtp-Source:REDACTED",
+        "X-Received:by REDACTED with SMTP id REDACTED; Fri, 13 Sep 2024 23:19:15 -0700 (PDT)",
+        "ARC-Seal:i=1; a=rsa-sha256; t=1726294755; cv=none; d=google.com; s=arc-20240605; b=REDACTED",
+        "ARC-Message-Signature:i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605; h=to:subject:message-id:date:from:mime-version:dkim-signature; bh=REDACTED; fh=REDACTED; b=REDACTED",
+        "ARC-Authentication-Results:i=1; mx.google.com; dkim=pass header.i=@mit.edu header.s=outgoing header.b=REDACTED; spf=pass (google.com: domain of hagen@mit.edu designates 18.9.28.11 as permitted sender) smtp.mailfrom=hagen@mit.edu; dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mit.edu",
+        "Return-Path:<hagen@mit.edu>",
+        "Received:from outgoing.mit.edu (outgoing-auth-1.mit.edu. [18.9.28.11]) by mx.google.com with ESMTPS id REDACTED for <interactioncocalifornia@gmail.com> (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128); Fri, 13 Sep 2024 23:19:15 -0700 (PDT)",
+        "Received-SPF:pass (google.com: domain of hagen@mit.edu designates 18.9.28.11 as permitted sender) client-ip=18.9.28.11;",
+        "Authentication-Results:mx.google.com; dkim=pass header.i=@mit.edu header.s=outgoing header.b=REDACTED; spf=pass (google.com: domain of hagen@mit.edu designates 18.9.28.11 as permitted sender) smtp.mailfrom=hagen@mit.edu; dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=mit.edu",
+        "Received:from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47]) (authenticated bits=0) (User authenticated as vonhagen@ATHENA.MIT.EDU) by outgoing.mit.edu (8.14.7/8.12.4) with ESMTP id REDACTED (version=TLSv1/SSLv3 cipher=AES128-GCM-SHA256 bits=128 verify=NOT) for <interactioncocalifornia@gmail.com>; Sat, 14 Sep 2024 02:19:13 -0400",
+        "DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed; d=mit.edu; s=outgoing; t=1726294754; bh=REDACTED; h=MIME-Version:From:Date:Message-ID:Subject:Content-Type; b=REDACTED",
+        "Received:by mail-ed1-f47.google.com with SMTP id REDACTED for <interactioncocalifornia@gmail.com>; Fri, 13 Sep 2024 23:19:13 -0700 (PDT)",
+        "X-Gm-Message-State:REDACTED",
+        "X-Received:by REDACTED with SMTP id REDACTED; Fri, 13 Sep 2024 23:19:11 -0700 (PDT)",
+        "MIME-Version:1.0",
+        "From:Marvin von Hagen <hagen@mit.edu>",
+        "Date:Sat, 14 Sep 2024 02:18:35 -0400",
+        "X-Gmail-Original-Message-ID:<REDACTED>",
+        "Message-ID:<REDACTED>",
+        "Subject:[HackMIT-easy] Bill of Sale",
+        "To:interactioncocalifornia@gmail.com",
+        "Content-Type:multipart/mixed; boundary=\"0000000000006efc9a06220e51d5\""
+      ],
+      "parts": [
+        {
+          "partId": "0",
+          "mimeType": "multipart/alternative",
+          "filename": "",
+          "content": "",
+          "headers": [
+            "Content-Type:multipart/alternative; boundary=\"0000000000006efc9806220e51d3\""
+          ],
+          "parts": [
+            {
+              "partId": "0.0",
+              "mimeType": "text/plain",
+              "filename": "",
+              "content": "Hey hackers,\r\n\r\nAttached, you can find the easy bill of sale form.\r\n\r\nPlease send it back filled out – Happy hacking!\r\n\r\nCheers,\r\nMarvin\r\n",
+              "headers": [
+                "Content-Type:text/plain; charset=\"UTF-8\"",
+                "Content-Transfer-Encoding:quoted-printable"
+              ]
+            },
+            {
+              "partId": "0.1",
+              "mimeType": "text/html",
+              "filename": "",
+              "content": "<div dir=\"ltr\">Hey hackers,<div><br></div><div>Attached, you can find the easy bill of sale form.</div><div><br></div><div>Please send it back filled out – Happy hacking!</div><div><br></div><div>Cheers,</div><div>Marvin</div></div>\r\n",
+              "headers": [
+                "Content-Type:text/html; charset=\"UTF-8\"",
+                "Content-Transfer-Encoding:quoted-printable"
+              ]
+            }
+          ]
+        },
+        {
+          "partId": "1",
+          "mimeType": "application/pdf",
+          "filename": "easy_including_form.pdf",
+          "content": "",
+          "headers": [
+            "Content-Type:application/pdf; name=\"easy_including_form.pdf\"",
+            "Content-Disposition:attachment; filename=\"easy_including_form.pdf\"",
+            "Content-Transfer-Encoding:base64",
+            "Content-ID:<f_m11rat010>",
+            "X-Attachment-Id:f_m11rat010"
+          ]
+        },
+        {
+          "partId": "2",
+          "mimeType": "application/pdf",
+          "filename": "easy-pdf.pdf",
+          "content": "",
+          "headers": [
+            "Content-Type:application/pdf; name=\"easy-pdf.pdf\"",
+            "Content-Disposition:attachment; filename=\"easy-pdf.pdf\"",
+            "Content-Transfer-Encoding:base64",
+            "Content-ID:<f_m11rat011>",
+            "X-Attachment-Id:f_m11rat011"
+          ],
+          "attachmentLink": "https://drive.google.com/uc?export=download&id=1sydBd9U0gPnVQoNJgmgII3B3VgY9fg6M"
+        }
+      ]
+    }
+  }
